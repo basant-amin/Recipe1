@@ -37,7 +37,7 @@ struct AddRecipe: View {
                 }
             }
             .padding(.vertical, 25)
-
+            
             // Title field
             VStack(alignment: .leading, spacing: 8) {
                 Text("Title").font(.system(size: 18, weight: .bold))
@@ -49,7 +49,7 @@ struct AddRecipe: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 20)
-
+            
             // Description field
             VStack(alignment: .leading, spacing: 8) {
                 Text("Description").font(.system(size: 18, weight: .bold))
@@ -63,7 +63,7 @@ struct AddRecipe: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 20)
-
+            
             // Add Ingredient section
             HStack {
                 Text("Add Ingredient").font(.system(size: 18, weight: .bold))
@@ -75,23 +75,25 @@ struct AddRecipe: View {
                 }
             }
             .padding(.horizontal)
-
-          
-            HStack {
-                Text("1").font(.system(size: 18, weight: .bold))
-                Text(ingredientName).font(.system(size: 18, weight: .bold))
-                Spacer()
-                Text("🥄 spoon")
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 10)
-                    .background(Color.orange)
-                    .cornerRadius(8)
+            
+            
+            ForEach(recipeViewModel.ingredients) { ingredient in
+                HStack {
+                    Text("\(ingredient.serving)")
+                        .font(.system(size: 18, weight: .bold))
+                    Text(ingredient.name)
+                        .font(.system(size: 18, weight: .bold))
+                    Spacer()
+                    Text(ingredient.measurement)
+                        .padding(.horizontal, 30)
+                        .padding(.vertical, 10)
+                        .background(Color.orange)
+                        .cornerRadius(8)
+                }
+                .background(Color.gray.opacity(0.1))
+                .padding(.horizontal)
+                .padding(.top, 20)
             }
-            .background(Color.gray.opacity(0.1))
-            .padding(.horizontal)
-            .padding(.top, 20)
-
-            Spacer()
         }
         .navigationTitle("New Recipe")
         .toolbar {
@@ -176,9 +178,24 @@ struct AddRecipe: View {
                             Button(action: { showIngredientPop = false }) {
                                 Text("Cancel").foregroundColor(.red).padding().frame(maxWidth: .infinity).background(Color(.systemGray6)).cornerRadius(8)
                             }
-                            Button(action: { showIngredientPop = false }) {
-                                Text("Add").foregroundColor(.white).padding().frame(maxWidth: .infinity).background(Color.orange).cornerRadius(8)
+                            Button(action: {
+                              
+                                recipeViewModel.addIngredient(name: ingredientName, measurement: selectedMeasurement, serving: serving)
+                                
+                                ingredientName = ""
+                                selectedMeasurement = "Spoon"
+                                serving = 1
+
+                                showIngredientPop = false
+                            }) {
+                                Text("Add")
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.orange)
+                                    .cornerRadius(8)
                             }
+
                         }
                     }
                     .padding()

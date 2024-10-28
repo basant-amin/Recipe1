@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct RecipeView: View {
-//  
-//    @State private var recipeName: String = ""
-//    @State private var recipeImage: String = ""
-//    @State private var recipeDescription: String = ""
-    @State private var showAddRecipeSheet = false
-    @ObservedObject private var recipeViewModel = RecipeViewModel() // Define recipeViewModel here
 
-    // Sample data for the list
+    @State private var showAddRecipeSheet = false
+    @ObservedObject private var recipeViewModel = RecipeViewModel()
+
+   
     @State private var recipes: [Recipe] = []
 
     var body: some View {
