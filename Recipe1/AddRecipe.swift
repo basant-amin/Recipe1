@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import PhotosUI
 struct AddRecipe: View {
     @ObservedObject var recipeViewModel: RecipeViewModel  
     @Environment(\.presentationMode) var presentationMode
@@ -15,7 +15,8 @@ struct AddRecipe: View {
     @State private var ingredientName: String = ""
     @State private var selectedMeasurement: String = "Spoon"
     @State private var serving: Int = 1
-
+    @State private var selectedImage: UIImage?
+    @State private var showImagePicker: Bool = false
     var body: some View {
         VStack {
             // Photo upload section
@@ -26,17 +27,31 @@ struct AddRecipe: View {
                     .background(Color(.systemGray6))
                     .frame(maxWidth: .infinity, maxHeight: 250)
                 VStack {
-                    Image(systemName: "photo.badge.plus")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 150)
-                        .foregroundColor(Color("RecipeOrangi"))
-                    Text("Upload Photo")
-                        .font(.system(size: 20, weight: .bold))
-                        .padding(.bottom, 10)
+                    if let selectedImage = selectedImage {
+                        Image(uiImage: selectedImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity, maxHeight: 250)
+                        .clipped()}else {
+                            
+                            
+                            Image(systemName: "photo.badge.plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 150, height: 150)
+                                .foregroundColor(Color("RecipeOrangi"))
+                            Text("Upload Photo")
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.bottom, 10)
+                    }
                 }
             }
             .padding(.vertical, 25)
+            
+            .onTapGesture {
+             
+                showImagePicker.toggle()
+            }
             
             // Title field
             VStack(alignment: .leading, spacing: 8) {
@@ -123,6 +138,13 @@ struct AddRecipe: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbarBackgroundVisibility(.visible)
+        
+        .sheet(isPresented: $showImagePicker) { 
+            ImagePicker(selectedImage: $selectedImage)
+        }
+        
+        
+        
         .overlay(
             Group {
                 if showIngredientPop {
@@ -207,6 +229,49 @@ struct AddRecipe: View {
                 }
             }
         )
+    }
+}
+
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        let parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
+
+            guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) else {
+                return
+            }
+
+            provider.loadObject(ofClass: UIImage.self) { image, _ in
+                DispatchQueue.main.async {
+                    self.parent.selectedImage = image as? UIImage
+                }
+            }
+        }
     }
 }
 

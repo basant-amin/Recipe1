@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct RecipeView: View {
-
     @State private var showAddRecipeSheet = false
     @ObservedObject private var recipeViewModel = RecipeViewModel()
-
-   
-    @State private var recipes: [Recipe] = []
+    @State private var searchQuery: String = ""
 
     var body: some View {
-        if recipeViewModel.recipes.isEmpty {
-            NavigationStack {
+        NavigationStack {
+            if recipeViewModel.recipes.isEmpty {
                 ZStack {
                     Circle()
                         .stroke(lineWidth: 30.0)
@@ -46,45 +43,66 @@ struct RecipeView: View {
                     }
                     .navigationBarBackButtonHidden(true)
                     .toolbarBackgroundVisibility(.visible)
-            }
-        } else {
-            NavigationStack {
-                List {
-                    ForEach(recipeViewModel.recipes) { recipe in
-                        ZStack(alignment: .bottomLeading) {
-                            Image("salad_image")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(maxWidth: .infinity, minHeight: 150)
-                                .clipped()
+            } else {
+                VStack {
+                    // Search Bar
+                    TextField("Search Recipes", text: $searchQuery)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding()
 
-                            LinearGradient(
-                                gradient: Gradient(colors: [.black.opacity(0.6), .clear]),
-                                startPoint: .bottom,
-                                endPoint: .center
-                            )
-                            .frame(height: 300)
+                    // Scrollable Recipe List
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            ForEach(recipeViewModel.recipes.filter { recipe in
+                                searchQuery.isEmpty || recipe.name.localizedCaseInsensitiveContains(searchQuery)
+                            }) { recipe in
+                                NavigationLink(destination: RecipeDetail(recipeViewModel: recipeViewModel, recipe: recipe)) {
+                                    ZStack(alignment: .bottomLeading) {
+                                        if let image = recipe.image {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(maxWidth: .infinity, minHeight: 150)
+                                                .clipped()
+                                        } else {
+                                            Image("salad_image") // Placeholder if no image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(maxWidth: .infinity, minHeight: 150)
+                                                .clipped()
+                                        }
 
-                            VStack(alignment: .leading) {
-                                Text(recipe.name)
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding(.bottom, 2)
-                                    .padding(.horizontal, 12)
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [.black.opacity(0.6), .clear]),
+                                            startPoint: .bottom,
+                                            endPoint: .center
+                                        )
+                                        .frame(height: 300)
 
-                                Text(recipe.description)
-                                    .font(.subheadline)
-                      .foregroundColor(.white.opacity(0.7))
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 12)
+                                        VStack(alignment: .leading) {
+                                            Text(recipe.name)
+                                                .font(.headline)
+                                                .foregroundColor(.white)
+                                                .padding(.bottom, 2)
+                                                .padding(.horizontal, 40)
+
+                                            Text(recipe.description)
+                                                .font(.subheadline)
+                                                .foregroundColor(.white.opacity(0.7))
+                                                .padding(.horizontal, 40)
+                                        }
+                                        .padding()
+                                    }
+                                    .padding(.top, 10)
+                                }
+                                .buttonStyle(PlainButtonStyle()) 
                             }
-                            .padding()
                         }
-                        .padding(.top, 10)
-                        .listRowInsets(EdgeInsets())
+                        .padding()
                     }
                 }
-                .listStyle(PlainListStyle())
                 .navigationTitle("Food Recipe")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

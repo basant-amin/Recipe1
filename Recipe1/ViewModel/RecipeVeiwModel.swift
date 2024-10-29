@@ -23,16 +23,16 @@ final class RecipeViewModel: ObservableObject {
     @Published var recipes: [Recipe] = []
     
     func addIngredient(name: String, measurement: String, serving: Int) {
-    
+        
         let newIngredient = Ingredient(name: name, measurement: measurement, serving: serving)
         ingredients.append(newIngredient)
         
- 
+        
         ingredientName = ""
         selectedMeasurement = "Spoon"
-        self.serving = 1  
+        self.serving = 1
     }
-
+    
     func addRecipe() {
         let newRecipe = Recipe(
             name: recipeName,
@@ -52,4 +52,25 @@ final class RecipeViewModel: ObservableObject {
         print("Added recipe with ingredients")
         print(recipes)
     }
+    
+    
+    func deleteRecipe(recipe: Recipe, completion: @escaping () -> Void) {
+        if let index = recipes.firstIndex(where: { $0.id == recipe.id }) {
+            recipes.remove(at: index)
+            completion() 
+        }
+    }
+
+    
+    
+    func editRecipe(originalRecipe: Recipe, newName: String, newDescription: String, newImage: UIImage?) {
+        if let index = recipes.firstIndex(where: { $0.id == originalRecipe.id }) {
+            // Update the recipe details
+            recipes[index].name = newName
+            recipes[index].description = newDescription
+            recipes[index].image = newImage
+        }
+    }
+
+
 }

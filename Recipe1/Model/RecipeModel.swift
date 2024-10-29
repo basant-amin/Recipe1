@@ -16,10 +16,10 @@ struct Ingredient: Identifiable {
 
 struct Recipe: Identifiable {
     let id: UUID = .init()
-    let name: String
+    var name: String
     var image: UIImage?
-    let description: String
-    var ingredients: [Ingredient]  // Array to store ingredients
+    var description: String
+    var ingredients: [Ingredient] 
 }
 
 
