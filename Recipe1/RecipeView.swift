@@ -67,11 +67,11 @@ struct RecipeView: View {
                                                 .frame(maxWidth: .infinity, minHeight: 150)
                                                 .clipped()
                                         } else {
-                                            Image("salad_image") // Placeholder if no image
+                                            Image(systemName: "photo")
                                                 .resizable()
-                                                .scaledToFill()
+                                                .scaledToFit()
                                                 .frame(maxWidth: .infinity, minHeight: 150)
-                                                .clipped()
+                                                .foregroundColor(Color.gray.opacity(0.6))
                                         }
 
                                         LinearGradient(
@@ -97,7 +97,7 @@ struct RecipeView: View {
                                     }
                                     .padding(.top, 10)
                                 }
-                                .buttonStyle(PlainButtonStyle()) 
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding()
@@ -119,5 +119,5 @@ struct RecipeView: View {
 }
 
 #Preview {
-    RecipeView()
+    RecipeView() 
 }

@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "fresh-green-mixed-salad-2023-11-27-05-19-48-utc.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

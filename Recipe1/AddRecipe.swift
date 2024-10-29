@@ -7,16 +7,17 @@
 
 import SwiftUI
 import PhotosUI
+
 struct AddRecipe: View {
-    @ObservedObject var recipeViewModel: RecipeViewModel  
+    @ObservedObject var recipeViewModel: RecipeViewModel
     @Environment(\.presentationMode) var presentationMode
     
     @State private var showIngredientPop: Bool = false
     @State private var ingredientName: String = ""
     @State private var selectedMeasurement: String = "Spoon"
     @State private var serving: Int = 1
-    @State private var selectedImage: UIImage?
     @State private var showImagePicker: Bool = false
+    
     var body: some View {
         VStack {
             // Photo upload section
@@ -27,29 +28,26 @@ struct AddRecipe: View {
                     .background(Color(.systemGray6))
                     .frame(maxWidth: .infinity, maxHeight: 250)
                 VStack {
-                    if let selectedImage = selectedImage {
+                    if let selectedImage = recipeViewModel.recipeImage {
                         Image(uiImage: selectedImage)
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: .infinity, maxHeight: 250)
-                        .clipped()}else {
-                            
-                            
-                            Image(systemName: "photo.badge.plus")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 150, height: 150)
-                                .foregroundColor(Color("RecipeOrangi"))
-                            Text("Upload Photo")
-                                .font(.system(size: 20, weight: .bold))
-                                .padding(.bottom, 10)
+                            .clipped()
+                    } else {
+                        Image(systemName: "photo.badge.plus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                            .foregroundColor(Color("RecipeOrangi"))
+                        Text("Upload Photo")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.bottom, 10)
                     }
                 }
             }
             .padding(.vertical, 25)
-            
             .onTapGesture {
-             
                 showImagePicker.toggle()
             }
             
@@ -91,7 +89,7 @@ struct AddRecipe: View {
             }
             .padding(.horizontal)
             
-            
+            // List of ingredients
             ForEach(recipeViewModel.ingredients) { ingredient in
                 HStack {
                     Text("\(ingredient.serving)")
@@ -138,13 +136,9 @@ struct AddRecipe: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbarBackgroundVisibility(.visible)
-        
-        .sheet(isPresented: $showImagePicker) { 
-            ImagePicker(selectedImage: $selectedImage)
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(selectedImage: $recipeViewModel.recipeImage)
         }
-        
-        
-        
         .overlay(
             Group {
                 if showIngredientPop {
@@ -201,13 +195,10 @@ struct AddRecipe: View {
                                 Text("Cancel").foregroundColor(.red).padding().frame(maxWidth: .infinity).background(Color(.systemGray6)).cornerRadius(8)
                             }
                             Button(action: {
-                              
                                 recipeViewModel.addIngredient(name: ingredientName, measurement: selectedMeasurement, serving: serving)
-                                
                                 ingredientName = ""
                                 selectedMeasurement = "Spoon"
                                 serving = 1
-
                                 showIngredientPop = false
                             }) {
                                 Text("Add")
@@ -217,7 +208,6 @@ struct AddRecipe: View {
                                     .background(Color.orange)
                                     .cornerRadius(8)
                             }
-
                         }
                     }
                     .padding()
@@ -231,7 +221,6 @@ struct AddRecipe: View {
         )
     }
 }
-
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
@@ -276,5 +265,10 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    AddRecipe(recipeViewModel: RecipeViewModel())
+    // Sample view model for preview
+    let sampleViewModel = RecipeViewModel()
+    sampleViewModel.recipeName = "Sample Recipe"
+    sampleViewModel.recipeDescription = "This is a sample description of a recipe."
+
+    return AddRecipe(recipeViewModel: sampleViewModel)
 }
