@@ -38,14 +38,6 @@ Designed with simplicity and functionality in mind, **Recipe App** offers a mini
 This project is Developed by **Basant Amin**, with UI design by **Fay**. It is intended for personal use only and may not be sold, redistributed, or shared publicly. All rights reserved.
 
 
-## 📸 Screenshots
-
-![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 24 57](https://github.com/user-attachments/assets/9aa06ee4-4a48-41d1-a6d9-58acf0480e5e)
-![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 25 02](https://github.com/user-attachments/assets/db85df57-9372-4a40-b006-a7a5fe4c81e3)
-![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 25 42](https://github.com/user-attachments/assets/8f19ad25-23fc-408c-8854-c9a0647cbb72)
-![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 27 01](https://github.com/user-attachments/assets/2a1b127a-7dbe-4062-9917-8bce548e1b61)
-![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 28 55](https://github.com/user-attachments/assets/ae247087-64da-4479-a7b2-09cb58f9d10a)
-
 
 ## 📸 Screenshots
 
