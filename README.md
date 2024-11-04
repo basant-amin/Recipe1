@@ -45,3 +45,30 @@ This project is Developed by **Basant Amin**, with UI design by **Fay**. It is i
 ![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 25 42](https://github.com/user-attachments/assets/8f19ad25-23fc-408c-8854-c9a0647cbb72)
 ![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 27 01](https://github.com/user-attachments/assets/2a1b127a-7dbe-4062-9917-8bce548e1b61)
 ![Simulator Screenshot - iPhone 16 - 2024-11-04 at 14 28 55](https://github.com/user-attachments/assets/ae247087-64da-4479-a7b2-09cb58f9d10a)
+
+
+## 📸 Screenshots
+
+
+
+![4](https://github.com/user-attachments/assets/e613b090-9520-40c5-8ac2-565760adfd2f)
+![3](https://github.com/user-attachments/assets/6513f4b5-5c1a-42b6-86df-52644b4ed618)
+![1](https://github.com/user-attachments/assets/8503c83a-3554-4a39-b1ee-6502e0b5773a)
+![5](https://github.com/user-attachments/assets/a6e90f28-7de1-4ee7-9de9-fcc5d79720e8)
+![2](https://github.com/user-attachments/assets/b0903a90-0996-44d3-b6ac-c04b6282735b)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
